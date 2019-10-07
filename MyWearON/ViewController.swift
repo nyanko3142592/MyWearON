@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import MediaPlayer
 
 class ViewController: UIViewController{
     
@@ -161,7 +162,32 @@ class ViewController: UIViewController{
         print(filename + ".mp3")
         playSound(name: filename)
     }
-    
+    //音量監視
+    func startListeningVolumeButton() {
+        // MPVolumeViewを画面の外側に追い出して見えないようにする
+        let frame = CGRect(x: -100, y: -100, width: 100, height: 100)
+        volumeView = MPVolumeView(frame: frame)
+        volumeView.sizeToFit()
+        view.addSubview(volumeView)
+
+        let audioSession = AVAudioSession.sharedInstance()
+        do {
+            try audioSession.setActive(true)
+            // AVAudioSessionの出力音量を取得して、最大音量と無音に振り切れないように初期音量を設定する
+            let vol = audioSession.outputVolume
+            initialVolume = Float(vol.description)!
+            if initialVolume > 0.9 {
+                initialVolume = 0.9
+            } else if initialVolume < 0.1 {
+                initialVolume = 0.1
+            }
+            setVolume(initialVolume)
+            // 出力音量の監視を開始
+            audioSession.addObserver(self, forKeyPath: "outputVolume", options: .new, context: nil)
+        } catch {
+            print("Could not observer outputVolume ", error)
+        }
+    }
 }
 
 extension ViewController: AVAudioPlayerDelegate {
