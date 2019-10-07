@@ -24,6 +24,11 @@ class ViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let volumeView = MPVolumeView(frame: CGRect(origin:CGPoint(x:/*-3000*/ 0, y:0), size:CGSize.zero))
+        self.view.addSubview(volumeView)
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.volumeChanged(notification:)), name:
+        NSNotification.Name("AVSystemController_SystemVolumeDidChangeNotification"), object: nil)
+        
         playSound(name: "start")
         
         let params = ["robot", "glass", "gun", "ball", "mario", "money", "quiz", "run", "sword", "None"]
@@ -166,64 +171,14 @@ class ViewController: UIViewController{
         playSound(name: filename)
     }
     
-    
-    
-    //音量監視
-    func startListeningVolumeButton() {
-        // MPVolumeViewを画面の外側に追い出して見えないようにする
-        let frame = CGRect(x: -100, y: -100, width: 100, height: 100)
-        volumeView = MPVolumeView(frame: frame)
-        volumeView.sizeToFit()
-        view.addSubview(volumeView)
+    @objc func volumeChanged(notification: NSNotification) {
 
-        let audioSession = AVAudioSession.sharedInstance()
-        do {
-            try audioSession.setActive(true)
-            // AVAudioSessionの出力音量を取得して、最大音量と無音に振り切れないように初期音量を設定する
-            let vol = audioSession.outputVolume
-            initialVolume = Float(vol.description)!
-            if initialVolume > 0.9 {
-                initialVolume = 0.9
-            } else if initialVolume < 0.1 {
-                initialVolume = 0.1
-            }
-            setVolume(initialVolume)
-            // 出力音量の監視を開始
-            audioSession.addObserver(self, forKeyPath: "outputVolume", options: .new, context: nil)
-        } catch {
-            print("Could not observer outputVolume ", error)
-        }
-    }
-    
-    func setVolume(_ volume: Float) {
-        (volumeView.subviews.filter{NSStringFromClass($0.classForCoder) == "MPVolumeSlider"}.first as? UISlider)?.setValue(initialVolume, animated: false)
-    }
-
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if keyPath == "outputVolume" {
-            let newVolume = (change?[NSKeyValueChangeKey.newKey] as! NSNumber).floatValue
-            // 出力音量が上がったか下がったかによって処理を分岐する
-            if initialVolume > newVolume {
-                // ボリュームが下がった時の処理をここに記述
-                print("volume down")
-                initialVolume = newVolume
-                // ボリュームが０になってしまうと以降のボリューム（ー）操作を検知できないので、０より大きい適当に小さい値に設定する
-                if initialVolume < 0.1 {
-                    initialVolume = 0.1
-                }
-            } else if initialVolume < newVolume {
-                // ボリュームが上がった時の処理をここに記述
-                print("volume up")
-                initialVolume = newVolume
-                // ボリュームが１になってしまうと以降のボリューム（＋）操作を検知できないので、１より小さい適当に大きい値に設定する
-                if initialVolume > 0.9 {
-                    initialVolume = 0.9
+        if let userInfo = notification.userInfo {
+            if let volumeChangeType = userInfo["AVSystemController_AudioVolumeChangeReasonNotificationParameter"] as? String {
+                if volumeChangeType == "ExplicitVolumeChange" {
+                    print("changed! \(userInfo)")
                 }
             }
-            // 一旦出力音量の監視をやめて出力音量を設定してから出力音量の監視を再開する
-            AVAudioSession.sharedInstance().removeObserver(self, forKeyPath: "outputVolume")
-            setVolume(initialVolume)
-            AVAudioSession.sharedInstance().addObserver(self, forKeyPath: "outputVolume", options: .new, context: nil)
         }
     }
 }
