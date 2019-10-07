@@ -14,6 +14,7 @@ class ViewController: UIViewController{
     
     var performanceMode : Int = 0
     var blindMode : Bool = false
+    var volumeValue : Float = 1.0
     
     var initialVolume: Float = 0.0
     var volumeView: MPVolumeView!
@@ -176,7 +177,21 @@ class ViewController: UIViewController{
         if let userInfo = notification.userInfo {
             if let volumeChangeType = userInfo["AVSystemController_AudioVolumeChangeReasonNotificationParameter"] as? String {
                 if volumeChangeType == "ExplicitVolumeChange" {
-                    print("changed! \(userInfo)")
+                    print(userInfo[AnyHashable("AVSystemController_AudioVolumeNotificationParameter")])
+                    if volumeValue > userInfo[AnyHashable("AVSystemController_AudioVolumeNotificationParameter")] as! Float{
+                        print("volume down")
+                    }
+                    else if volumeValue < userInfo[AnyHashable("AVSystemController_AudioVolumeNotificationParameter")] as! Float{
+                        print("volume up")
+                    }
+                    else if volumeValue == userInfo[AnyHashable("AVSystemController_AudioVolumeNotificationParameter")] as! Float && volumeValue == 1{
+                        print("volume max")
+                    }
+                    else if volumeValue == userInfo[AnyHashable("AVSystemController_AudioVolumeNotificationParameter")] as! Float && volumeValue == 0{
+                        print("volume min")
+                    }
+                    volumeValue = userInfo[AnyHashable("AVSystemController_AudioVolumeNotificationParameter")] as! Float
+                    plusAction()
                 }
             }
         }
