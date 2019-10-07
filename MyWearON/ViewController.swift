@@ -180,18 +180,21 @@ class ViewController: UIViewController{
                     print(userInfo[AnyHashable("AVSystemController_AudioVolumeNotificationParameter")])
                     if volumeValue > userInfo[AnyHashable("AVSystemController_AudioVolumeNotificationParameter")] as! Float{
                         print("volume down")
+                        shakeAction()//minusActionをあとでつくる
                     }
                     else if volumeValue < userInfo[AnyHashable("AVSystemController_AudioVolumeNotificationParameter")] as! Float{
                         print("volume up")
+                        plusAction()
                     }
                     else if volumeValue == userInfo[AnyHashable("AVSystemController_AudioVolumeNotificationParameter")] as! Float && volumeValue == 1{
                         print("volume max")
+                        plusAction()
                     }
                     else if volumeValue == userInfo[AnyHashable("AVSystemController_AudioVolumeNotificationParameter")] as! Float && volumeValue == 0{
                         print("volume min")
+                        shakeAction()
                     }
                     volumeValue = userInfo[AnyHashable("AVSystemController_AudioVolumeNotificationParameter")] as! Float
-                    plusAction()
                 }
             }
         }
