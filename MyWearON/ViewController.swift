@@ -14,6 +14,9 @@ class ViewController: UIViewController{
     
     var performanceMode : Int = 0
     var blindMode : Bool = false
+    
+    var initialVolume: Float = 0.0
+    var volumeView: MPVolumeView!
 
     var segmentedControl: UISegmentedControl!
     var audioPlayer: AVAudioPlayer!
@@ -162,6 +165,9 @@ class ViewController: UIViewController{
         print(filename + ".mp3")
         playSound(name: filename)
     }
+    
+    
+    
     //音量監視
     func startListeningVolumeButton() {
         // MPVolumeViewを画面の外側に追い出して見えないようにする
@@ -186,6 +192,38 @@ class ViewController: UIViewController{
             audioSession.addObserver(self, forKeyPath: "outputVolume", options: .new, context: nil)
         } catch {
             print("Could not observer outputVolume ", error)
+        }
+    }
+    
+    func setVolume(_ volume: Float) {
+        (volumeView.subviews.filter{NSStringFromClass($0.classForCoder) == "MPVolumeSlider"}.first as? UISlider)?.setValue(initialVolume, animated: false)
+    }
+
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == "outputVolume" {
+            let newVolume = (change?[NSKeyValueChangeKey.newKey] as! NSNumber).floatValue
+            // 出力音量が上がったか下がったかによって処理を分岐する
+            if initialVolume > newVolume {
+                // ボリュームが下がった時の処理をここに記述
+                print("volume down")
+                initialVolume = newVolume
+                // ボリュームが０になってしまうと以降のボリューム（ー）操作を検知できないので、０より大きい適当に小さい値に設定する
+                if initialVolume < 0.1 {
+                    initialVolume = 0.1
+                }
+            } else if initialVolume < newVolume {
+                // ボリュームが上がった時の処理をここに記述
+                print("volume up")
+                initialVolume = newVolume
+                // ボリュームが１になってしまうと以降のボリューム（＋）操作を検知できないので、１より小さい適当に大きい値に設定する
+                if initialVolume > 0.9 {
+                    initialVolume = 0.9
+                }
+            }
+            // 一旦出力音量の監視をやめて出力音量を設定してから出力音量の監視を再開する
+            AVAudioSession.sharedInstance().removeObserver(self, forKeyPath: "outputVolume")
+            setVolume(initialVolume)
+            AVAudioSession.sharedInstance().addObserver(self, forKeyPath: "outputVolume", options: .new, context: nil)
         }
     }
 }
