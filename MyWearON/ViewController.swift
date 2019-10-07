@@ -115,6 +115,11 @@ class ViewController: UIViewController{
         shakeAction()
     }
     
+    //shake detection
+    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        shakeAction()
+    }
+    
     @objc func plusButtonEvent(_ sender: UIButton) {
         plusAction()
     }
