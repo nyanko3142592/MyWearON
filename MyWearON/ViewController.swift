@@ -20,7 +20,7 @@ class ViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        playSound(name: "0001")
+        playSound(name: "start")
         
         let params = ["robot", "glass", "gun", "ball", "mario", "money", "quiz", "run", "sword", "None"]
         segmentedControl = UISegmentedControl(items: params)
@@ -136,19 +136,25 @@ class ViewController: UIViewController{
     }
     
     func plusAction(){
-        print(performanceMode*10 + 1)
+        let musicFile = String(performanceMode*10 + 1)
+        print(musicFile)
+        playSound(name: musicFile)
     }
     
     func shakeAction(){
-        print(performanceMode*10 + 0)
-        
+        let musicFile = String(performanceMode*10 + 0)
+        print(musicFile)
+        playSound(name: musicFile)
     }
     
     func screenAction(){
-        print(performanceMode*10 + 2)
+        let musicFile = String(performanceMode*10 + 2)
+        print(musicFile)
+        playSound(name: musicFile)
     }
     func playMusic(filename : String){
-            playSound(name: filename)
+        print(filename + ".mp3")
+        playSound(name: filename)
     }
     
 }

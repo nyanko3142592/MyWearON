@@ -13,7 +13,7 @@
 		E98FD4582349863F0084B893 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E98FD4562349863F0084B893 /* Main.storyboard */; };
 		E98FD45A234986400084B893 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E98FD459234986400084B893 /* Assets.xcassets */; };
 		E98FD45D234986400084B893 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E98FD45B234986400084B893 /* LaunchScreen.storyboard */; };
-		E98FD466234B90D90084B893 /* 0001.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E98FD465234B90D90084B893 /* 0001.mp3 */; };
+		E98FD466234B90D90084B893 /* start.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E98FD465234B90D90084B893 /* start.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,7 +25,7 @@
 		E98FD459234986400084B893 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E98FD45C234986400084B893 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E98FD45E234986400084B893 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E98FD465234B90D90084B893 /* 0001.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 0001.mp3; path = ../../../WearON/WearOn/productionMusic/0001.mp3; sourceTree = "<group>"; };
+		E98FD465234B90D90084B893 /* start.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = start.mp3; path = ../../../WearON/WearOn/productionMusic/start.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,7 +73,7 @@
 		E98FD464234B907E0084B893 /* music */ = {
 			isa = PBXGroup;
 			children = (
-				E98FD465234B90D90084B893 /* 0001.mp3 */,
+				E98FD465234B90D90084B893 /* start.mp3 */,
 			);
 			path = music;
 			sourceTree = "<group>";
@@ -139,7 +139,7 @@
 				E98FD45D234986400084B893 /* LaunchScreen.storyboard in Resources */,
 				E98FD45A234986400084B893 /* Assets.xcassets in Resources */,
 				E98FD4582349863F0084B893 /* Main.storyboard in Resources */,
-				E98FD466234B90D90084B893 /* 0001.mp3 in Resources */,
+				E98FD466234B90D90084B893 /* start.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
