@@ -41,9 +41,9 @@ class ViewController: UIViewController{
         
         let shakeButton = UIButton(type: UIButton.ButtonType.system)
         shakeButton.addTarget(self, action: #selector(shakeButtonEvent(_:)), for: UIControl.Event.touchUpInside)
-        shakeButton.setTitle("SHAKE", for: UIControl.State.normal)
-        shakeButton.setTitleColor(UIColor.black, for: .normal)
-        shakeButton.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
+        shakeButton.setTitle("↑↓", for: UIControl.State.normal)
+        shakeButton.setTitleColor(UIColor.white, for: .normal)
+        shakeButton.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.1)
         shakeButton.frame = view.frame
         shakeButton.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(shakeButton)
@@ -54,22 +54,36 @@ class ViewController: UIViewController{
         
         let plusButton = UIButton(type: UIButton.ButtonType.system)
         plusButton.addTarget(self, action: #selector(plusButtonEvent(_:)), for: UIControl.Event.touchUpInside)
-        plusButton.setTitle("PLUS", for: UIControl.State.normal)
-        plusButton.setTitleColor(UIColor.black, for: .normal)
-        plusButton.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
+        plusButton.setTitle("＋", for: UIControl.State.normal)
+        plusButton.setTitleColor(UIColor.white, for: .normal)
+        plusButton.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.1)
         plusButton.frame = view.frame
         plusButton.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(plusButton)
-        plusButton.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        plusButton.widthAnchor.constraint(equalToConstant: 70).isActive = true
         plusButton.heightAnchor.constraint(equalToConstant: 70).isActive = true
-        plusButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 200).isActive = true
+        plusButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 250).isActive = true
         plusButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
+        
+        let minusButton = UIButton(type: UIButton.ButtonType.system)
+         minusButton.addTarget(self, action: #selector(minusButtonEvent(_:)), for: UIControl.Event.touchUpInside)
+         minusButton.setTitle("-", for: UIControl.State.normal)
+         minusButton.setTitleColor(UIColor.white, for: .normal)
+         minusButton.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.1)
+         minusButton.frame = view.frame
+         minusButton.translatesAutoresizingMaskIntoConstraints = false
+         self.view.addSubview(minusButton)
+         minusButton.widthAnchor.constraint(equalToConstant: 70).isActive = true
+         minusButton.heightAnchor.constraint(equalToConstant: 70).isActive = true
+         minusButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 160).isActive = true
+         minusButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
+        
         
         let screenButton = UIButton(type: UIButton.ButtonType.system)
         screenButton.addTarget(self, action: #selector(screenButtonEvent(_:)), for: UIControl.Event.touchUpInside)
-        screenButton.setTitle("screen", for: UIControl.State.normal)
-        screenButton.setTitleColor(UIColor.black, for: .normal)
-        screenButton.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
+        screenButton.setTitle("", for: UIControl.State.normal)
+        screenButton.setTitleColor(UIColor.white, for: .normal)
+        screenButton.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.1)
         screenButton.frame = view.frame
         screenButton.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(screenButton)
@@ -80,9 +94,9 @@ class ViewController: UIViewController{
         
         let blindButton = UIButton(type: UIButton.ButtonType.system)
         blindButton.addTarget(self, action: #selector(blindButtonEvent(_:)), for: UIControl.Event.touchUpInside)
-        blindButton.setTitle("blind", for: UIControl.State.normal)
+        blindButton.setTitle("👁", for: UIControl.State.normal)
         blindButton.setTitleColor(UIColor.white, for: .normal)
-        blindButton.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
+        blindButton.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.1)
         blindButton.frame = view.frame
         blindButton.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(blindButton)
@@ -90,6 +104,7 @@ class ViewController: UIViewController{
         blindButton.heightAnchor.constraint(equalToConstant: 200).isActive = true
         blindButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 350).isActive = true
         blindButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
+        
     }
 
     @objc func segmentChanged(_ sender: UISegmentedControl){
@@ -134,6 +149,10 @@ class ViewController: UIViewController{
         plusAction()
     }
     
+    @objc func minusButtonEvent(_ sender: UIButton) {
+        minusAction()
+    }
+    
     @objc func screenButtonEvent(_ sender: UIButton) {
         screenAction()
     }
@@ -143,6 +162,7 @@ class ViewController: UIViewController{
         if blindMode{
             //create blind
             print("create blind")
+            
         }
         else{
             //delete blind
@@ -152,6 +172,12 @@ class ViewController: UIViewController{
     
     func plusAction(){
         let musicFile = String(performanceMode*10 + 1)
+        print(musicFile)
+        playSound(name: musicFile)
+    }
+    
+    func minusAction(){
+        let musicFile = String(performanceMode*10 + 0)//現在shakeと同じ
         print(musicFile)
         playSound(name: musicFile)
     }
@@ -180,7 +206,7 @@ class ViewController: UIViewController{
                     print(userInfo[AnyHashable("AVSystemController_AudioVolumeNotificationParameter")])
                     if volumeValue > userInfo[AnyHashable("AVSystemController_AudioVolumeNotificationParameter")] as! Float{
                         print("volume down")
-                        shakeAction()//minusActionをあとでつくる
+                        minusAction()//minusActionをあとでつくる
                     }
                     else if volumeValue < userInfo[AnyHashable("AVSystemController_AudioVolumeNotificationParameter")] as! Float{
                         print("volume up")
@@ -192,7 +218,7 @@ class ViewController: UIViewController{
                     }
                     else if volumeValue == userInfo[AnyHashable("AVSystemController_AudioVolumeNotificationParameter")] as! Float && volumeValue == 0{
                         print("volume min")
-                        shakeAction()
+                        minusAction()
                     }
                     volumeValue = userInfo[AnyHashable("AVSystemController_AudioVolumeNotificationParameter")] as! Float
                 }
