@@ -15,12 +15,14 @@ class ViewController: UIViewController{
     var performanceMode : Int = 0
     var blindMode : Bool = false
     var volumeValue : Float = 1.0
-    var firstClickTime : String = ""
+    var firstClickTime : Float = 0.0
     var initialVolume: Float = 0.0
     var volumeView: MPVolumeView!
 
     var segmentedControl: UISegmentedControl!
     var audioPlayer: AVAudioPlayer!
+    
+    var timerCounter : Float = 0.0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -104,6 +106,10 @@ class ViewController: UIViewController{
         blindButton.heightAnchor.constraint(equalToConstant: 200).isActive = true
         blindButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 350).isActive = true
         blindButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
+        
+        // タイマーを作る
+        Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(ViewController.onUpdate(timer:)), userInfo: nil, repeats: true)
+          
         
     }
 
@@ -256,7 +262,7 @@ extension ViewController: AVAudioPlayerDelegate {
         return dateFormatter.string(from: now)
     }
     func doubleClicker(){
-        if firstClickTime == getNowTime(){
+        if firstClickTime + 0.5 >= timerCounter{
             minusAction()
             print("double click")
         }
@@ -264,7 +270,13 @@ extension ViewController: AVAudioPlayerDelegate {
             plusAction()
             print("single click")
         }
-        firstClickTime = getNowTime()
+        firstClickTime = timerCounter
     }
+    
+    // TimerのtimeIntervalで指定された秒数毎に呼び出されるメソッド
+    @objc func onUpdate(timer : Timer){
+         // カウントの値1増加
+        timerCounter += 0.1
+     }
 }
 
