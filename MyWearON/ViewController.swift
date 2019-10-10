@@ -54,7 +54,7 @@ class ViewController: UIViewController{
         
         let plusButton = UIButton(type: UIButton.ButtonType.system)
         plusButton.addTarget(self, action: #selector(plusButtonEvent(_:)), for: UIControl.Event.touchUpInside)
-        plusButton.setTitle("＋", for: UIControl.State.normal)
+        plusButton.setTitle("single", for: UIControl.State.normal)
         plusButton.setTitleColor(UIColor.white, for: .normal)
         plusButton.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.1)
         plusButton.frame = view.frame
@@ -67,7 +67,7 @@ class ViewController: UIViewController{
         
         let minusButton = UIButton(type: UIButton.ButtonType.system)
          minusButton.addTarget(self, action: #selector(minusButtonEvent(_:)), for: UIControl.Event.touchUpInside)
-         minusButton.setTitle("-", for: UIControl.State.normal)
+         minusButton.setTitle("double", for: UIControl.State.normal)
          minusButton.setTitleColor(UIColor.white, for: .normal)
          minusButton.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.1)
          minusButton.frame = view.frame
@@ -245,6 +245,15 @@ extension ViewController: AVAudioPlayerDelegate {
             audioPlayer.play()
         } catch {
         }
+    }
+    
+    func getNowTime() -> String{
+        // 現在日時を取得
+        let now = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = DateFormatter.dateFormat(fromTemplate: "ydMMMHms", options: 0, locale: Locale(identifier: "ja_JP"))
+        print(dateFormatter.string(from: now))
+        return dateFormatter.string(from: now)
     }
 }
 
