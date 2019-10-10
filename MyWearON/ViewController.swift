@@ -15,7 +15,7 @@ class ViewController: UIViewController{
     var performanceMode : Int = 0
     var blindMode : Bool = false
     var volumeValue : Float = 1.0
-    
+    var firstClickTime : String = ""
     var initialVolume: Float = 0.0
     var volumeView: MPVolumeView!
 
@@ -146,7 +146,7 @@ class ViewController: UIViewController{
     }
     
     @objc func plusButtonEvent(_ sender: UIButton) {
-        plusAction()
+        doubleClicker()
     }
     
     @objc func minusButtonEvent(_ sender: UIButton) {
@@ -210,11 +210,11 @@ class ViewController: UIViewController{
                     }
                     else if volumeValue < userInfo[AnyHashable("AVSystemController_AudioVolumeNotificationParameter")] as! Float{
                         print("volume up")
-                        plusAction()
+                        doubleClicker()
                     }
                     else if volumeValue == userInfo[AnyHashable("AVSystemController_AudioVolumeNotificationParameter")] as! Float && volumeValue == 1{
                         print("volume max")
-                        plusAction()
+                        doubleClicker()
                     }
                     else if volumeValue == userInfo[AnyHashable("AVSystemController_AudioVolumeNotificationParameter")] as! Float && volumeValue == 0{
                         print("volume min")
@@ -254,6 +254,17 @@ extension ViewController: AVAudioPlayerDelegate {
         dateFormatter.dateFormat = DateFormatter.dateFormat(fromTemplate: "ydMMMHms", options: 0, locale: Locale(identifier: "ja_JP"))
         print(dateFormatter.string(from: now))
         return dateFormatter.string(from: now)
+    }
+    func doubleClicker(){
+        if firstClickTime == getNowTime(){
+            minusAction()
+            print("double click")
+        }
+        else{
+            plusAction()
+            print("single click")
+        }
+        firstClickTime = getNowTime()
     }
 }
 
