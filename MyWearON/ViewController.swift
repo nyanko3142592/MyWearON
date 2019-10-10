@@ -110,7 +110,7 @@ class ViewController: UIViewController{
         
         // タイマーを作る
         Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(ViewController.onUpdate(timer:)), userInfo: nil, repeats: true)
-        
+
     }
 
     @objc func segmentChanged(_ sender: UISegmentedControl){
@@ -145,10 +145,11 @@ class ViewController: UIViewController{
     @objc func shakeButtonEvent(_ sender: UIButton) {
         shakeMode = !shakeMode
         if shakeMode{
-
+            print("shake mode ON")
+            
         }
         else{
-
+            print("shake mode OFF")
         }
     }
     
@@ -290,5 +291,7 @@ extension ViewController: AVAudioPlayerDelegate {
          // カウントの値1増加
         timerCounter += 0.1
      }
+    
+
 }
 
