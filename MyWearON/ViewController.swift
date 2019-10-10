@@ -14,6 +14,7 @@ class ViewController: UIViewController{
     
     var performanceMode : Int = 0
     var blindMode : Bool = false
+    var shakeMode : Bool = true
     var volumeValue : Float = 1.0
     var firstClickTime : Float = 0.0
     var initialVolume: Float = 0.0
@@ -34,7 +35,7 @@ class ViewController: UIViewController{
         
         playSound(name: "start")
         
-        let params = ["robot", "glass", "gun", "ball", "mario", "money", "quiz", "run", "sword", "None"]
+        let params = ["robot", "glass", "gun", "ball", "mario", "money", "quiz", "run", "rider", "None"]
         segmentedControl = UISegmentedControl(items: params)
         segmentedControl.frame = CGRect(x: 0, y: view.frame.height-100, width: view.frame.width, height: 100)
         
@@ -109,7 +110,6 @@ class ViewController: UIViewController{
         
         // タイマーを作る
         Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(ViewController.onUpdate(timer:)), userInfo: nil, repeats: true)
-          
         
     }
 
@@ -143,12 +143,23 @@ class ViewController: UIViewController{
     
     // ボタンが押された時に呼ばれるメソッド
     @objc func shakeButtonEvent(_ sender: UIButton) {
-        shakeAction()
+        shakeMode = !shakeMode
+        if shakeMode{
+
+        }
+        else{
+
+        }
     }
     
     //shake detection
     override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
-        shakeAction()
+        if shakeMode{
+            shakeAction()
+        }
+        else{
+            
+        }
     }
     
     @objc func plusButtonEvent(_ sender: UIButton) {
@@ -261,6 +272,7 @@ extension ViewController: AVAudioPlayerDelegate {
         print(dateFormatter.string(from: now))
         return dateFormatter.string(from: now)
     }
+    
     func doubleClicker(){
         if firstClickTime + 0.5 >= timerCounter{
             minusAction()
