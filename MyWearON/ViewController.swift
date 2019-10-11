@@ -146,10 +146,12 @@ class ViewController: UIViewController{
         shakeMode = !shakeMode
         if shakeMode{
             print("shake mode ON")
+            onButton()
             
         }
         else{
             print("shake mode OFF")
+            offButton()
         }
     }
     
