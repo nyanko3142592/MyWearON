@@ -33,9 +33,7 @@ class ViewController: UIViewController{
         NotificationCenter.default.addObserver(self, selector: #selector(ViewController.volumeChanged(notification:)), name:
         NSNotification.Name("AVSystemController_SystemVolumeDidChangeNotification"), object: nil)
         
-        playSound(name: "start")
-        
-        let params = ["robot", "glass", "gun", "ball", "mario", "money", "quiz", "run", "rider", "None"]
+        let params = ["robot", "glass", "gun", "ball", "mario", "money", "quiz", "run", "rider", "Sword"]
         segmentedControl = UISegmentedControl(items: params)
         segmentedControl.frame = CGRect(x: 0, y: view.frame.height-100, width: view.frame.width, height: 100)
         
@@ -94,19 +92,19 @@ class ViewController: UIViewController{
         screenButton.heightAnchor.constraint(equalToConstant: 200).isActive = true
         screenButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -125).isActive = true
         screenButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
-        
-        let blindButton = UIButton(type: UIButton.ButtonType.system)
-        blindButton.addTarget(self, action: #selector(blindButtonEvent(_:)), for: UIControl.Event.touchUpInside)
-        blindButton.setTitle("👁", for: UIControl.State.normal)
-        blindButton.setTitleColor(UIColor.white, for: .normal)
-        blindButton.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.1)
-        blindButton.frame = view.frame
-        blindButton.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(blindButton)
-        blindButton.widthAnchor.constraint(equalToConstant: 70).isActive = true
-        blindButton.heightAnchor.constraint(equalToConstant: 200).isActive = true
-        blindButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 350).isActive = true
-        blindButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
+//
+//        let blindButton = UIButton(type: UIButton.ButtonType.system)
+//        blindButton.addTarget(self, action: #selector(blindButtonEvent(_:)), for: UIControl.Event.touchUpInside)
+//        blindButton.setTitle("👁", for: UIControl.State.normal)
+//        blindButton.setTitleColor(UIColor.white, for: .normal)
+//        blindButton.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.1)
+//        blindButton.frame = view.frame
+//        blindButton.translatesAutoresizingMaskIntoConstraints = false
+//        self.view.addSubview(blindButton)
+//        blindButton.widthAnchor.constraint(equalToConstant: 70).isActive = true
+//        blindButton.heightAnchor.constraint(equalToConstant: 200).isActive = true
+//        blindButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 350).isActive = true
+//        blindButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
         
         // タイマーを作る
         Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(ViewController.onUpdate(timer:)), userInfo: nil, repeats: true)
